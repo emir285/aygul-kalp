@@ -1,0 +1,107 @@
+/* ——— Reset & base ——— */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0b0b12;color:#fff;overflow:hidden}
+body{font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+a{color:inherit}
+
+/* ——— Layout ——— */
+.app{
+  position:relative; height:100%; width:100%;
+  display:grid; grid-template-rows:auto auto auto 1fr auto;
+  place-items:center; padding: clamp(12px, 3vw, 28px);
+}
+.headline{
+  text-align:center; font-weight:800; line-height:1.05;
+  font-size:clamp(28px, 6vw, 72px);
+  letter-spacing:0.5px;
+}
+.headline span{color:#ff5a8b}
+.hint{
+  margin-top:8px; opacity:.85; font-size:clamp(12px, 2.4vw, 16px);
+}
+.hint .mini{opacity:.7}
+.mega{
+  margin-top:16px; border:0; padding:14px 20px; border-radius:14px;
+  font-weight:700; font-size:clamp(14px,2.8vw,18px);
+  background:linear-gradient(135deg,#ff4d6d,#ff8fa3,#ffd6e0);
+  color:#0b0b12; cursor:pointer; box-shadow:0 8px 24px rgba(255,77,109,.35);
+  transition:transform .08s ease, filter .2s ease;
+}
+.mega:active{ transform: scale(.98) }
+.canvas{
+  position:relative; width:100%; height:100%; overflow:hidden;
+  border-radius:18px; background:
+    radial-gradient(1200px 600px at 50% 120%, rgba(255,90,139,.08), transparent 60%),
+    radial-gradient(600px 300px at 10% -10%, rgba(255,143,163,.08), transparent 50%);
+  outline:1px solid rgba(255,255,255,.06);
+}
+.footer{
+  opacity:.65; font-size:13px;
+}
+
+/* ——— Heart ——— */
+.heart{
+  --size: 24px;
+  --hue: 346; /* pink/red */
+  --sat: 90%;
+  --lit: 60%;
+  position:absolute;
+  width:var(--size); height:var(--size);
+  transform: translate(-50%, -50%) rotate(-45deg);
+  transform-origin:center;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,.35));
+  animation: floatUp var(--dur) linear forwards;
+}
+.heart .shape{
+  position:absolute; inset:0;
+  background: hsl(var(--hue), var(--sat), var(--lit));
+  border-radius: 4px;
+}
+.heart .shape::before,
+.heart .shape::after{
+  content:""; position:absolute; width:100%; height:100%;
+  background: hsl(var(--hue), var(--sat), var(--lit));
+  border-radius:50%;
+}
+.heart .shape::before{ top:-50%; left:0 }
+.heart .shape::after{ left:50%; top:0 }
+
+/* Letter inside the heart */
+.heart .letter{
+  position:absolute; inset:0;
+  display:grid; place-items:center;
+  transform: rotate(45deg); /* cancel parent rotation */
+  font-weight:800; font-family: Poppins, system-ui;
+  color:#0b0b12; text-shadow: 0 1px 0 rgba(255,255,255,.35);
+  font-size: calc(var(--size) * .6);
+  user-select:none; pointer-events:none;
+}
+
+/* Trails / sparkle */
+.spark{
+  position:absolute; width:6px; height:6px; border-radius:50%;
+  background: rgba(255,255,255,.7); filter: blur(0.5px);
+  animation: sparkUp var(--dur) linear forwards;
+  pointer-events:none;
+}
+
+/* ——— Animations ——— */
+@keyframes floatUp{
+  0%{
+    opacity:0; transform: translate(-50%,-30%) rotate(-45deg) scale(.8);
+  }
+  10%{ opacity:1 }
+  100%{
+    opacity:0; transform: translate(-50%,-250%) rotate(-45deg) scale(1.1);
+  }
+}
+@keyframes sparkUp{
+  0%{ opacity:0; transform: translate(-50%,-30%) scale(.6) }
+  20%{ opacity:1 }
+  100%{ opacity:0; transform: translate(-50%,-220%) scale(1) }
+}
+
+/* Accessibility: if prefers-reduced-motion, keep it calm */
+@media (prefers-reduced-motion: reduce){
+  .heart, .spark { animation-duration: 600ms !important; }
+}
